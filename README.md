@@ -3,6 +3,7 @@ AO Muse Project
 > Axel Iván Reyes Orellana
 
 Project to improve AO Muse performance.
+The scripts retrieve data from fits files, store it and make queries to the database.
 
 ### Requirements
 For the execute of the scripts its neccesary:
