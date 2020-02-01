@@ -11,12 +11,12 @@ For the execute of the scripts its neccesary:
 - [PonyORM](https://ponyorm.org/)
 
 > It also uses the next libraries: 
-- [NumPy]
-- [Pandas]
-- [AstroPy]
-- [Glob]
-- [OS]
-- [Json]
+- [NumPy](https://numpy.org/)
+- [Pandas](https://pandas.pydata.org/)
+- [AstroPy](https://www.astropy.org/)
+- [Glob](https://docs.python.org/3/library/glob.html)
+- [OS](https://docs.python.org/3/library/os.html)
+- [Json](https://docs.python.org/3/library/json.html)
 
 ### Before execute
 Before execute its neccesary to make a mariaDB data base empty. You will need the name of the DB, username and password for the connection.
