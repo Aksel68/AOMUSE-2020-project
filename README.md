@@ -33,7 +33,7 @@ Create an user of the database:
 ```sql
 CREATE USER '//user_name//'@'localhost' IDENTIFIED BY '//password//';
 ```
-And finally to grant all privileges to the database user:
+And finally grant privileges to the database user:
 ```sql
 GRANT ALL PRIVILEGES ON //database_name//.* TO '//username//'@'localhost';
 ```
