@@ -93,7 +93,5 @@ db.bind(provider = 'mysql', host = '127.0.0.1', user = '//username//', passwd = 
 This script will drop all the tables of your database. 
 
 
-If there is an error with the script or with the README like a misspelling or something, do not be afraid to send me an email to axel.reyes@sansano.usm.cl and thanks in advance.
-
-
+If there is an error with the scripts or with the README like a misspelling or something, do not be afraid to send me an email to axel.reyes@sansano.usm.cl and thanks in advance.
 
