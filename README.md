@@ -29,7 +29,7 @@ Then you have to create an empty database:
 ```sql
 CREATE DATABASE //database_name//; 
 ```
-To create an user of the database:
+Create an user of the database:
 ```sql
 CREATE USER '//user_name//'@'localhost' IDENTIFIED BY '//password//';
 ```
