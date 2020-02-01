@@ -5,7 +5,6 @@ import glob
 import json
 from pony.orm import *
 
-
 db = Database()
 
 class Target(db.Entity):
@@ -31,11 +30,11 @@ class Exposure(db.Entity):
 
 @db_session
 def museScript():
-    x = 'home/muse/projects/fselman/nfm_ao_clusters/reduce'
-    singleDir = '/home/muse/projects/jhartke/wfm_ao_tight1/single/'
-    rawDir = '/home/muse/projects/jhartke/wfm_ao_tight1/raw/'
-    analysisDir = '/home/muse/projects/jhartke/wfm_ao_tight1/analysis/'
-    os.chdir(analysisDir)          #Directory to the analysis files
+    rootDir = input("Enter the root directory")
+    singleDir = rootDir + '/single/'
+    rawDir = rootDir + '/raw/'
+    analysisDir = rootDir + '/analysis/'
+    os.chdir(analysisDir)          
     for analysisFileName in glob.glob('*.prm*.fits'):   
         data = {}     
         psfParams = {}
@@ -61,8 +60,7 @@ def museScript():
                 psfParams['wavelength'] = prm_wavelength.tolist()
         except FileNotFoundError:
                 print("The file", analysisFileName,"does not exist")
-
-        
+     
         try:
             with fits.open(psfFile) as hduList:
                 for tuple in hduList.info(False):
@@ -83,7 +81,6 @@ def museScript():
             os.chdir(singleDir) 
             with fits.open(singleFileName) as hduList:
                 header = hduList[0].header
-
                 try:
                     targName = header['HIERARCH ESO OBS TARG NAME']
                 except KeyError:
@@ -92,16 +89,6 @@ def museScript():
                     target = Target.get(targetName = targName)
                 else:
                     target = Target(targetName = targName)
-                """
-                try:
-                    #print('1')
-                    target = Target(targetName = targName)
-                    #print('2')
-                except:
-                    #print('3')
-                    target = Target.get(targetName = targName)
-                    #print('4')
-                """
                 if(Exposure.exists(singleFile=singleFileName)):
                     continue
                 expo = Exposure(targetName = target, analysisFile = analysisFileName)
@@ -112,19 +99,16 @@ def museScript():
                     rawFileName = header['PROV1']+'.fz'
                     expo.rawFile = rawFileName
                 except KeyError:
-                    print("The header PROV1 does not exist")
-                
+                    print("The header PROV1 does not exist")     
                 aux = dict(header)
                 try:
                    del aux['COMMENT']
                 except KeyError:
                    pass
-                data['PRIMMARY'] = aux #json.dumps(aux)
-               
+                data['PRIMMARY'] = aux #json.dumps(aux)        
         except FileNotFoundError:
                 print("The file", singleFileName,"does not exist")
-
-            
+      
         try:
             os.chdir(rawDir)
             flag = True
@@ -154,7 +138,6 @@ def museScript():
                     data['CHAN22'] = dict(hduList['CHAN22'].header)
                     data['CHAN23'] = dict(hduList['CHAN23'].header)
                     data['CHAN24'] = dict(hduList['CHAN24'].header)
-        
                 except:
                     print("Error: channel header not found")
                 
@@ -180,8 +163,7 @@ def museScript():
                         name = table.columns.names[i]
                         agData[name] = table[name].tolist() 
                         i += 1
-                    data['AG_DATA'] = agData
-                   
+                    data['AG_DATA'] = agData    
                 except KeyError:
                     data['AG_DATA'] = None
                     flag = False
@@ -195,8 +177,7 @@ def museScript():
                         name = table.columns.names[i]
                         asmData[name] = table[name].tolist() 
                         i += 1
-                    data['ASM_DATA'] = asmData
-                    
+                    data['ASM_DATA'] = asmData      
                 except KeyError:
                     data['ASM_DATA'] = None
                     flag = False
@@ -228,7 +209,7 @@ def museScript():
                 except KeyError:
                     data['SPARTA_CN2_DATA'] = None
                     flag = False
-                    print("SPARTA_CN2_DATA not found in", expo.singleFile)
+                    print("SPARTA_CN2_DATA not found in", expo.singleFile)        
                 if(not flag):
                     print("")
         except FileNotFoundError:
@@ -242,7 +223,7 @@ def museScript():
 
 # ----- Main -----
 
-db.bind(provider='mysql', host='127.0.0.1', user='user', passwd='pass', db='db')
+db.bind(provider='mysql', host='127.0.0.1', user='aomuse', passwd='#aomuse2020', db='aomuse')
 db.generate_mapping(create_tables=True)
 
 museScript()
