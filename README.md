@@ -8,9 +8,9 @@ Project to improve AO Muse performance.
 For the execute of the scripts its neccesary:
 - [MariaDB](https://mariadb.org/)
 - [Connector/ODBC](https://downloads.mariadb.org/connector-odbc/)
-- [PonyORM](https://ponyorm.org/)
 
 It also uses the next libraries: 
+- [PonyORM](https://ponyorm.org/)
 - [NumPy](https://numpy.org/)
 - [Pandas](https://pandas.pydata.org/)
 - [AstroPy](https://www.astropy.org/)
