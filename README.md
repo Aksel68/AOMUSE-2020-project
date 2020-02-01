@@ -47,7 +47,7 @@ First, you have to modify the next line at the end of the script with your datab
 db.bind(provider = 'mysql', host = '127.0.0.1', user = '//username//', passwd = '//password//', db = '//database_name//')
 ``` 
 To execute museScript.py its neccesary to  have three folders in the same directory with the reduced, analysis, and raw files named 'single', 'analysis' and 'raw' respectively. At the moment to execute the script, you have to give as input the root directory where are the folders, or you can press enter if the script its already in the root directory.
-The script will automatically read the files, create the classes respectively and PonyORM will map those to the MariaDB database.
+The script will automatically read the files, create the classes corresponding and PonyORM will map those to the MariaDB database.
 
 ### museRead.py
 First, you have to modify the next line at the end of the script with your database information:
