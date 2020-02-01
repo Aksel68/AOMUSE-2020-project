@@ -83,7 +83,7 @@ STOP                 #Stop giving keywords
 STOP                 #Stop giving extensions
 ``` 
 
-You can copy and paste the input in the terminal and the script will recognize the structure and make the queries correctly to the MariaDB database, or you can go step by step.
+You can copy and paste the input in the terminal and the script will recognize the structure and make the queries correctly to the MariaDB database, or you can go step by step. If you put an extension or key that does not exist, it will be notified in the terminal.
 For now, this script makes a pandas DataFrame and print it with the asked values (or the average if those are a list of values) and with the PSF parameters as default.
 
 ### museDelete.py
