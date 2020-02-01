@@ -54,7 +54,7 @@ First, you have to modify the next line at the end of the script with your datab
 db.bind(provider = 'mysql', host = '127.0.0.1', user = '//username//', passwd = '//password//', db = '//database_name//')
 ``` 
 When you execute the script, it will ask you a serie of inputs where these have the following structure:
-
+``` 
 //Number of the option//      # 1.- Exposures of one target 2.- All exposures 3.- Exit
 //Target name//               # Only if you chose the option 1
 //Extension name//
@@ -65,8 +65,9 @@ When you execute the script, it will ask you a serie of inputs where these have 
 //Keyword of the extension//
 STOP                          # Stop giving keywords 
 //ExtensionName// || STOP      # You can ask for more extensions and repeat the process or type 'stop'
-
+``` 
 For example:
+``` 
 2                    #Number of the option
 PRIMMARY             #Extension name     
 ESO TEL AMBI TAU0    #Keyword of the extension
@@ -79,6 +80,7 @@ SGS_DATA             #Extension Name
 OBJ1_FLUX            #Keyword of the extension
 STOP                 #Stop giving keywords
 STOP                 #Stop giving extensions
+``` 
 
 You can copy and paste the input in the terminal and the script will recognize the structure and make the queries correctly to the MariaDB database, or you can go step by step.
 For now, this script makes a pandas DataFrame and print it with the asked values (or the average if those are a list of values) and with the PSF parameters as default.
