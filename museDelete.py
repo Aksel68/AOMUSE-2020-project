@@ -1,6 +1,5 @@
 from pony.orm import *
 
-
 db = Database()
 
 class Target(db.Entity):
@@ -24,7 +23,7 @@ class Exposure(db.Entity):
     stars = Optional(Json)
 
 
-db.bind(provider='mysql', host='127.0.0.1', user='user', passwd='pass', db='db')
+db.bind(provider = 'mysql', host = '127.0.0.1', user = 'aomuse', passwd = '#aomuse2020', db = 'aomuse')
 db.generate_mapping(create_tables = True)
 db.drop_all_tables(with_all_data = True)
 

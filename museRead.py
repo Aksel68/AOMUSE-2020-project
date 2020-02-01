@@ -6,7 +6,6 @@ import glob
 import json
 from pony.orm import *
 
-
 db = Database()
 
 class Target(db.Entity):
@@ -36,7 +35,7 @@ def getInput(expo):
     inputs = {}
     while(flag):
         try:
-            extensionName = input("Enter the extension or type 'stop': ").upper()
+            extensionName = input().upper() #"Enter the extension or type 'stop': "
             if(extensionName == 'STOP'):
                 break
             data = json.loads(expo.data)
@@ -48,7 +47,7 @@ def getInput(expo):
         keys = []
         while(flag2):    
             try:
-                key = input("Enter the keyword or type 'stop': ").upper()
+                key = input().upper() #"Enter the keyword or type 'stop': "
                 if(key == 'STOP'):
                     flag2 = False
                 else:
@@ -116,7 +115,7 @@ def readDB():
         if(opt == '1'):
             flag = True
             while(flag):
-                targ = input("Enter the target name or type 'exit': ").upper()
+                targ = input().upper() #"Enter the target name or type 'exit': "
                 if(targ == 'EXIT'):
                     exit()
                 target = Target.get(targetName = targ)
@@ -150,7 +149,6 @@ def readDB():
             df = pd.DataFrame(output)
             print(df)
                 
-
         elif(opt == '3'):
             flag = False
 
@@ -159,7 +157,7 @@ def readDB():
 
 # ----- Main -----
 
-db.bind(provider='mysql', host='127.0.0.1', user='user', passwd='pass', db='db')
+db.bind(provider = 'mysql', host = '127.0.0.1', user = 'aomuse', passwd = '#aomuse2020', db = 'aomuse')
 db.generate_mapping(create_tables = True)
 
 readDB()
