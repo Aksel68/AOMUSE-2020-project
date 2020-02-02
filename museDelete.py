@@ -23,7 +23,7 @@ class Exposure(db.Entity):
     stars = Optional(Json)
 
 
-db.bind(provider = 'mysql', host = '127.0.0.1', user = 'aomuse', passwd = '#aomuse2020', db = 'aomuse')
+db.bind(provider = 'mysql', host = '127.0.0.1', user = 'user', passwd = 'pass', db = 'dbname')
 db.generate_mapping(create_tables = True)
 db.drop_all_tables(with_all_data = True)
 
