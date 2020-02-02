@@ -6,7 +6,7 @@ Project to improve AO Muse performance.
 The scripts retrieve data from fits files, store it and make queries to the database.
 
 ### Requirements
-For the execute of the scripts its neccesary:
+For the execution of the scripts its neccesary:
 - [MariaDB](https://mariadb.org/)
 - [Connector/ODBC](https://downloads.mariadb.org/connector-odbc/)
 
@@ -39,7 +39,7 @@ And finally grant privileges to the database user:
 GRANT ALL PRIVILEGES ON //database_name//.* TO '//username//'@'localhost';
 ```
 
-### Execute the scripts
+### Scripts
 
 ### museScript.py
 First, you have to modify the next line at the end of the script with your database information:
