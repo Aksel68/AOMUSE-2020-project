@@ -1,2 +1,0 @@
-# AOMUSE
-AO Muse Project
