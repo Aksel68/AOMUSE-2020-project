@@ -1,29 +1,39 @@
 from pony.orm import *
 
+# Create a database object from Pony
 db = Database()
 
+# The classes inherit db.Entity from Pony
 class Target(db.Entity):
 
 #   ----- Attributes -----
 
-    targetName = Required(str, unique = True)
-    exposures = Set('Exposure')
+    targetName = Required(str, unique = True) # Required: Cannot be None
+    
+#   ----- Relations -----
+
+    exposures = Set('Exposure') # One target contains a set of exposures
 
 
 class Exposure(db.Entity):
 
 #   ----- Attributes -----
 
-    targetName = Required('Target')
-    analysisFile = Required(str, unique=True)
-    singleFile = Optional(str, unique=True)
-    rawFile = Optional(str, unique=True)
+    insMode = Required(str)
+    analysisFile = Required(str, unique=True) # Unique: Other exposure cannot have the same analysis file name
+    rawFile = Optional(str, unique=True) # Optional: Can be None
     data = Optional(Json)
     psfParams = Optional(Json)
-    stars = Optional(Json)
+    sources = Optional(Json)
+    
+#   ----- Relations -----
+    
+    target = Required('Target') # One exposure belongs to a target
 
 
-db.bind(provider = 'mysql', host = '127.0.0.1', user = 'user', passwd = 'pass', db = 'dbname')
-db.generate_mapping(create_tables = True)
-db.drop_all_tables(with_all_data = True)
+#   ----- Main -----
+
+db.bind(provider='mysql', host='127.0.0.1', user='user', passwd='pass', db='dbname') # Establish the conection with the database
+db.generate_mapping() # Map the classes with the database tables 
+db.drop_all_tables(with_all_data = True) # Delete all the tables
 
