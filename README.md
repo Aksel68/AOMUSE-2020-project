@@ -100,7 +100,7 @@ tau0 = primary['ESO TEL AMBI TAU0'] # Coherence time
 asmData = data['ASM_DATA']
 seeing = asmData['DIMM_SEEING'] # List of seeing values
 ```
-Only the primary dictionary has single values, the others dictionaries has list of values because the were tables.
+Only the primary dictionary has single values, the others dictionaries has list of values because they were tables.
 ### PSF Parameters Field
 The PSF Parameters field is a dictionary has the four following PSF parameters list of values:
 - Theta
@@ -130,7 +130,7 @@ The exposure Sources field can have several 'PM_X' extensions, where X is the so
 For example:
 ``` 
 sources = json.loads(exposure.sources) # Transform the JSON into a dictionary
-source = sources['PM_1'] # Choose a source (Assuming that the PM_1 exists)
+source = sources['PM_1'] # Choose a source (Assuming that PM_1 exists)
 snr = source['snr'] 
 flux = source['flux'] # Ellipticity
 beta = source['beta']
@@ -196,7 +196,111 @@ Create an exposure that belongs to another target
 exposure = Exposure(target = Target[1], insMode = "test", analysisFile = "test")
 ```
 ### Read
+Get a target by targetName
+```
+target = Target.get(targetName = "testTarget")
+```
+Get a target by id
+```
+id = 1
+target = Target[id]
+```
+Get an exposure by id
+```
+id = 1
+expo = Exposure[id]
+```
+Get an exposure by file name (for example: raw file name)
+```
+exposure = Exposure.get(rawFile = "testRaw")
+```
+Get all exposures
+```
+expos = select(e for e in Exposure)
+len(expos)
+```
+Get all exposures as a List
+```
+expos = select(e for e in Exposure)[:]
+```
+
+Get exposures of a target
+```
+expos = select(e for e in Exposure if e in target.exposures) # Notice that the condition can be whatever 
+len(expos)
+```
+Get exposures of a specific instrument mode
+```
+expos = select(e for e in Exposure if e.insMode == "WFM-AO-N")
+len(expos)
+```
+Get the id
+```
+targetID = target.id
+exposureID = exposure.id
+```
+Get the target name of a target
+```
+targetName = target.targetName 
+```
+Get attributes from the exposure
+```
+target = exposure.target    # Get the target object that contains the exposure
+analysisFileName = exposure.analysisFile
+insMode = exposure.insMode
+rawFileName = exposure.rawFile
+data = json.loads(exposure.data) #Transform the JSON into a dictionary
+psfParams = json.loads(exposure.psfParams)
+sources = json.loads(exposure.sources)
+```
 ### Update
+Change the target name
+```
+target.targetName = "testTarget2"
+```
+Change the target
+```
+newTarget = Target[id_of_another_target]
+expo = Exposure.get(analysisFile = "test")
+expo.target = newTarget
+```
+Change a file name
+```
+exposure.rawFile = "testRaw2"
+```
+Change data
+```
+data = json.loads(exposure.data)
+data["PRIMARY"]["RA"] = 200.0
+exposure.data = json.dumps(data)
+```
+Change PSF Parameters
+```
+psf = json.loads(exposure.psfParams)
+psf["fwhm"] = [2,3,4]
+exposure.psfParams = json.dumps(psf)
+```
+Change sources data
+```
+sources = json.loads(exposure.sources)
+sources["PM_1"]["snr"] = [2,3,4]
+exposure.sources = json.dumps(sources)   
+```
 ### Delete
+Delete a target
+```
+target = Target.get(targetName = "testTarget2")
+target.delete()
+```
+Notice that all the exposures that belongs to the target were deleted
+```
+expo = Exposure.get(analysisFile = "testAnalysis2")
+expo # Check for the exposure
+```
+Delete an exposure
+```
+expo = Exposure.get(analysisFile = "test")
+expo.delete()
+```
 If there is an error with the scripts or with the README, like a misspelling or something, do not be afraid to send me an email to axel.reyes@sansano.usm.cl and I will try to fix it as soon as posible. Thank you in advance.
 
