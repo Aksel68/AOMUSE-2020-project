@@ -3,25 +3,24 @@ AO Muse Project
 > Axel Iván Reyes Orellana
 
 Project to improve AO Muse performance.
-
 The script retrieve data from fits files (prm and psf .fits, reduced and raw), and store it into the database grouped by target.
 
 ## Contents
-- [Requirements](https://github.com/AxlKings/AOMUSE/new/development?readme=1#requirements)
-- [Before execute](https://github.com/AxlKings/AOMUSE/new/development?readme=1#before-execute)
-- [How to run the scripts](https://github.com/AxlKings/AOMUSE/new/development?readme=1#scripts)
-- [Exposure Data Structure](https://github.com/AxlKings/AOMUSE/new/development?readme=1#data-structure)
+- [Requirements](https://github.com/AxlKings/AOMUSE#requirements)
+- [Before execute](https://github.com/AxlKings/AOMUSE#before-execute)
+- [How to run the scripts](https://github.com/AxlKings/AOMUSE#scripts)
+- [Exposure Data Structure](https://github.com/AxlKings/AOMUSE#data-structure)
 
-  - [Data field](https://github.com/AxlKings/AOMUSE/new/development?readme=1#data-field)
-  - [PSF Parameters field](https://github.com/AxlKings/AOMUSE/new/development?readme=1#psf-parameters-field)
-  - [Sources field](https://github.com/AxlKings/AOMUSE/new/development?readme=1#sources-field)
-  - [Some keywords](https://github.com/AxlKings/AOMUSE/new/development?readme=1#some-important-keywords)
-- [Basic PonyORM functions](https://github.com/AxlKings/AOMUSE/new/development?readme=1#ponyorm)
+  - [Data field](https://github.com/AxlKings/AOMUSE#data-field)
+  - [PSF Parameters field](https://github.com/AxlKings/AOMUSE#psf-parameters-field)
+  - [Sources field](https://github.com/AxlKings/AOMUSE#sources-field)
+  - [Some keywords](https://github.com/AxlKings/AOMUSE#some-important-keywords)
+- [Basic PonyORM functions](https://github.com/AxlKings/AOMUSE#ponyorm)
 
-  - [Create](https://github.com/AxlKings/AOMUSE/new/development?readme=1#create)
-  - [Read](https://github.com/AxlKings/AOMUSE/new/development?readme=1#read)
-  - [Update](https://github.com/AxlKings/AOMUSE/new/development?readme=1#update)
-  - [Delete](https://github.com/AxlKings/AOMUSE/new/development?readme=1#delete)
+  - [Create](https://github.com/AxlKings/AOMUSE#create)
+  - [Read](https://github.com/AxlKings/AOMUSE#read)
+  - [Update](https://github.com/AxlKings/AOMUSE#update)
+  - [Delete](https://github.com/AxlKings/AOMUSE#delete)
   
 ## Requirements
 For the execution of the script its neccesary:
@@ -55,6 +54,7 @@ And finally grant privileges to the database user:
 ```sql
 GRANT ALL PRIVILEGES ON //database_name//.* TO '//username//'@'localhost';
 ```
+
 ## Scripts
 
 ### museScript.py
@@ -62,12 +62,11 @@ First, you have to modify the next line at the end of the script with your datab
 ```
 db.bind(provider = 'mysql', host = '127.0.0.1', user = '//username//', passwd = '//password//', db = '//database_name//')
 ``` 
-
 To execute museScript.py its neccesary to have three folders in the same directory with the reduced, analysis, and raw files named 'single', 'analysis' and 'raw' respectively. At the moment to execute the script, you have to give as input the root directory where are the folders, or you can press enter if the script its already in the root directory.
 The script will automatically read the files, create the objects corresponding and PonyORM will map those to the MariaDB database.
 
-### museDelete.py
 
+### museDelete.py
 First, you have to modify the next line at the end of the script with your database information:
 ```
 db.bind(provider = 'mysql', host = '127.0.0.1', user = '//username//', passwd = '//password//', db = '//database_name//')
@@ -304,3 +303,4 @@ expo = Exposure.get(analysisFile = "test")
 expo.delete()
 ```
 If there is an error with the scripts or with the README, like a misspelling or something, do not be afraid to send me an email to axel.reyes@sansano.usm.cl and I will try to fix it as soon as posible. Thank you in advance.
+
