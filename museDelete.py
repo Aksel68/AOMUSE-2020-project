@@ -3,7 +3,7 @@ from pony.orm import *
 # Create a database object from Pony
 db = Database()
 
-# The classes have to inherit db.Entity from Pony
+# The classes inherit db.Entity from Pony
 class Target(db.Entity):
 
 #   ----- Attributes -----

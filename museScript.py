@@ -87,8 +87,8 @@ def museScript():
         try:
             with fits.open(analysisFileName) as hduList:
                 analysisSplit = analysisFileName.split('.prm') # split to get the single file name
-                singleFileName = analysisSplit[0] + analysisSplit[1]
-                psfFile = analysisFileName.replace('prm', 'psf') # replace to get the psf file name
+                singleFileName = analysisSplit[0] + analysisSplit[1] # Notice that single file has the same root name that prm file
+                psfFile = analysisFileName.replace('prm', 'psf') # replace to get the psf file name (prm and psf files has the same root name)
                 try:
                     params = hduList['PSFPARS'].data # If the prm file does not have the PSFPARS extension, skip 
                 except KeyError:
