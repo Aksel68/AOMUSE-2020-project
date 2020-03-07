@@ -1,8 +1,8 @@
 # AOMUSE
-AO Muse Project
+Muse AO Project
 > Axel Iván Reyes Orellana
 
-Project to improve AO Muse performance.
+Project to improve Muse AO performance.
 The script retrieve data from fits files (prm and psf .fits, reduced and raw), and store it into the database grouped by target.
 
 ## Contents
@@ -74,7 +74,50 @@ db.bind(provider = 'mysql', host = '127.0.0.1', user = '//username//', passwd = 
 This script will drop all the tables of your database.  
 
 ## Data Structure
-All the following fields are in JSON format, so at the moment to read them in python, you have to transform it into a dictionary to access to the information.
+
+The following code cells define the structure of the database entities (Targets and Exposures) and how Pony map the classes with the tables.
+```
+from pony.orm import *
+```
+```
+# Create a database object from Pony
+db = Database()
+
+# The classes inherit db.Entity from Pony
+class Target(db.Entity):
+
+#   ----- Attributes -----
+
+    targetName = Required(str, unique = True) # Required: Cannot be None
+    
+#   ----- Relations -----
+
+    exposures = Set('Exposure') # One target contains a set of exposures
+
+
+class Exposure(db.Entity):
+
+#   ----- Attributes -----
+
+    insMode = Required(str)
+    analysisFile = Required(str, unique=True) # Unique: Other exposure cannot have the same analysis file name
+    rawFile = Optional(str, unique=True) # Optional: Can be None
+    data = Optional(Json)
+    psfParams = Optional(Json)
+    sources = Optional(Json)
+    
+#   ----- Relations -----
+    
+    target = Required('Target') # One exposure belongs to a target
+```
+
+```
+#   ----- Main -----
+
+db.bind(provider='mysql', host='127.0.0.1', user='user', passwd='pass', db='dbname') # Establish the conection with the database
+db.generate_mapping() # Map the classes with the database tables 
+```
+For the exposure structure, we will see the following fields that are in JSON format. At the moment to read them in python, you have to transform it into a dictionary to access to the information.
 ### Data Field
 The exposure Data field has the following extensions (as dictionaries):
   - PRIMARY: Primary header of the reduced file.
@@ -139,19 +182,56 @@ xc = source['xc']
 yc = source['yc']
 ```
 ### Some important keywords 
+Each exposure data field contains a lot of information, so the keywords that you want can be hard to find. Here are some keywords that we have used for the analysis in this project (sometimes are not all availables in an exposure):
 
+Seeing
+```
+Seeing = (data['PRIMARY']['ESO TEL AMBI FWHM START']+data['PRIMARY']['ESO TEL AMBI FWHM END'])/2 # average between two values 
+```
+Air Mass
+```
+airMass = (data['PRIMARY']['ESO TEL AIRM START']+data['PRIMARY']['ESO TEL AIRM END'])/2 # average between two values 
+```
+Coherence time
+```
+Tau0 = (data['PRIMARY]['ESO TEL AMBI TAU0'])
+```
+Date
+```
+date = data['PRIMARY']['DATE-OBS'] # as string
+```
+Ground layer fraction
+```
+glf = data['PRIMARY']['ESO OCS SGS ASM GL900 AVG']
+```
+Guide star flux
+```
+ngsFlux = data['PRIMARY']["ESO AOS NGS1 FLUX"]
+```
+STREHL
+```
+# Get the mean strehl for each laser
+sparta = data["SPARTA_ATM_DATA"]
+L1 = np.mean(sparta["LGS1_STREHL"])
+L2 = np.mean(sparta["LGS2_STREHL"])
+L3 = np.mean(sparta["LGS3_STREHL"])
+L4 = np.mean(sparta["LGS4_STREHL"])
+```
 ## PonyORM
 
 ### Create
-Create a target named "targetName"
+To create entities for the database you only have to create the object corresponding to the class that represents the table of the database.
+At the moment to create the object, you have to pass the attributes required according to the class structure.
+Here are some examples of how to create objects with the previously defined class structure: 
+#### Create a target named "targetName"
 ```
 target = Target(targetName = "testTarget") 
 ```
-Create an exposure that belongs to the previous target
+#### Create an exposure that belongs to the previous target
 ```
 exposure = Exposure(target = target, insMode = "testMode", analysisFile = "testAnalysis")
 ```
-Optional to initialize the other attributes of the exposure
+#### Optional to initialize the other attributes of the exposure
 ```
 exposure.rawFile = "testRaw"
 ```
@@ -191,59 +271,60 @@ dictionary = {
 sources = json.dumps(dictionary) 
 exposure.sources = sources
 ```
-Create an exposure that belongs to another target
+#### Create an exposure that belongs to another target
 ```
 exposure = Exposure(target = Target[1], insMode = "test", analysisFile = "test")
 ```
 ### Read
-Get a target by targetName
+To read the data from the database, Pony offers different ways to do that. Here are some of them:
+#### Get a target by targetName
 ```
 target = Target.get(targetName = "testTarget")
 ```
-Get a target by id
+#### Get a target by id
 ```
 id = 1
 target = Target[id]
 ```
-Get an exposure by id
+#### Get an exposure by id
 ```
 id = 1
 expo = Exposure[id]
 ```
-Get an exposure by file name (for example: raw file name)
+#### Get an exposure by file name (for example: raw file name)
 ```
 exposure = Exposure.get(rawFile = "testRaw")
 ```
-Get all exposures
+#### Get all exposures
 ```
 expos = select(e for e in Exposure)
 len(expos)
 ```
-Get all exposures as a List
+#### Get all exposures as a List
 ```
 expos = select(e for e in Exposure)[:]
 ```
 
-Get exposures of a target
+#### Get exposures of a target
 ```
 expos = select(e for e in Exposure if e in target.exposures) # Notice that the condition can be whatever 
 len(expos)
 ```
-Get exposures of a specific instrument mode
+#### Get exposures of a specific instrument mode
 ```
 expos = select(e for e in Exposure if e.insMode == "WFM-AO-N")
 len(expos)
 ```
-Get the id
+#### Get the id
 ```
 targetID = target.id
 exposureID = exposure.id
 ```
-Get the target name of a target
+#### Get the target name of a target
 ```
 targetName = target.targetName 
 ```
-Get attributes from the exposure
+#### Get attributes from the exposure
 ```
 target = exposure.target    # Get the target object that contains the exposure
 analysisFileName = exposure.analysisFile
@@ -254,40 +335,41 @@ psfParams = json.loads(exposure.psfParams)
 sources = json.loads(exposure.sources)
 ```
 ### Update
-Change the target name
+To update an entitie, you can modify the corresponding object field. 
+#### Change the target name
 ```
 target.targetName = "testTarget2"
 ```
-Change the target
+#### Change the target
 ```
 newTarget = Target[id_of_another_target]
 expo = Exposure.get(analysisFile = "test")
 expo.target = newTarget
 ```
-Change a file name
+#### Change a file name
 ```
 exposure.rawFile = "testRaw2"
 ```
-Change data
+#### Change data
 ```
 data = json.loads(exposure.data)
 data["PRIMARY"]["RA"] = 200.0
 exposure.data = json.dumps(data)
 ```
-Change PSF Parameters
+#### Change PSF Parameters
 ```
 psf = json.loads(exposure.psfParams)
 psf["fwhm"] = [2,3,4]
 exposure.psfParams = json.dumps(psf)
 ```
-Change sources data
+#### Change sources data
 ```
 sources = json.loads(exposure.sources)
 sources["PM_1"]["snr"] = [2,3,4]
 exposure.sources = json.dumps(sources)   
 ```
 ### Delete
-Delete a target
+#### Delete a target
 ```
 target = Target.get(targetName = "testTarget2")
 target.delete()
@@ -297,10 +379,13 @@ Notice that all the exposures that belongs to the target were deleted
 expo = Exposure.get(analysisFile = "testAnalysis2")
 expo # Check for the exposure
 ```
-Delete an exposure
+#### Delete an exposure
 ```
 expo = Exposure.get(analysisFile = "test")
 expo.delete()
 ```
+
+For more information, please read [Pony documentation](https://docs.ponyorm.org/).
+
 If there is an error with the scripts or with the README, like a misspelling or something, do not be afraid to send me an email to axel.reyes@sansano.usm.cl and I will try to fix it as soon as posible. Thank you in advance.
 
