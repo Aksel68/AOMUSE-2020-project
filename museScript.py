@@ -118,7 +118,7 @@ def museScript():
                         sourceData = {} # Dictionary that will store the data of the source
                         table = hduList[sourceID].data # Access to the source extension
                         i = 0
-                        for column in table.columns: # Iterate in the list of columns  
+                        for column in table.columns.names: # Iterate in the list of column names 
                             sourceData[column] = table[column].tolist() # Store the column with its list of values
                             i += 1
                         sources[sourceID] = sourceData # Store the source data
@@ -175,7 +175,7 @@ def museScript():
                 try:
                     sgsData = {} # Dictionary that will store the data
                     table = hduList['SGS_DATA'].data 
-                    for column in table.columns: # Iterate in the list of columns
+                    for column in table.columns.names: # Iterate in the list of column names
                         sgsData[column] = table[column].tolist() # Store the column with its list of values
                     data['SGS_DATA'] = sgsData
                 except KeyError:
@@ -185,7 +185,7 @@ def museScript():
                 try:
                     agData = {}
                     table = hduList['AG_DATA'].data
-                    for column in table.columns: # Iterate in the list of columns
+                    for column in table.columns.names: # Iterate in the list of column names
                         agData[column] = table[column].tolist() # Store the column with its list of values
                     data['AG_DATA'] = agData    
                 except KeyError:
@@ -195,7 +195,7 @@ def museScript():
                 try:
                     asmData = {}
                     table = hduList['ASM_DATA'].data
-                    for column in table.columns: # Iterate in the list of columns
+                    for column in table.columns.names: # Iterate in the list of column names
                         asmData[column] = table[column].tolist() # Store the column with its list of values
                     data['ASM_DATA'] = asmData      
                 except KeyError:
@@ -205,7 +205,7 @@ def museScript():
                 try:
                     spartaAtmData = {}
                     table = hduList['SPARTA_ATM_DATA'].data
-                    for column in table.columns: # Iterate in the list of columns
+                    for column in table.columns.names: # Iterate in the list of column names
                         spartaAtmData[column] = table[column].tolist() # Store the column with its list of values
                     data['SPARTA_ATM_DATA'] = spartaAtmData
                 except KeyError:
@@ -215,7 +215,7 @@ def museScript():
                 try:
                     spartaCn2Data = {}
                     table = hduList['SPARTA_CN2_DATA'].data
-                    for column in table.columns: # Iterate in the list of columns
+                    for column in table.columns.names: # Iterate in the list of column names
                         spartaCn2Data[column] = table[column].tolist() # Store the column with its list of values
                     data['SPARTA_CN2_DATA'] = spartaCn2Data
                 except KeyError:
