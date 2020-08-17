@@ -5,30 +5,29 @@ db = Database()
 
 # The classes inherit db.Entity from Pony
 class Target(db.Entity):
+    #   ----- Attributes -----
 
-#   ----- Attributes -----
+    target_name = Required(str, unique=True)  # Required: Cannot be None
 
-    targetName = Required(str, unique = True) # Required: Cannot be None
-    
-#   ----- Relations -----
+    #   ----- Relations -----
 
-    exposures = Set('Exposure') # One target contains a set of exposures
+    exposures = Set('Exposure')  # One target contains a set of exposures
 
-
+# Exposure table class
 class Exposure(db.Entity):
+    #   ----- Attributes -----
 
-#   ----- Attributes -----
-
+    observation_time = Required(str, unique=True)
     insMode = Required(str)
-    analysisFile = Required(str, unique=True) # Unique: Other exposure cannot have the same analysis file name
-    rawFile = Optional(str, unique=True) # Optional: Can be None
-    data = Optional(Json)
-    psfParams = Optional(Json)
-    sources = Optional(Json)
-    
-#   ----- Relations -----
-    
-    target = Required('Target') # One exposure belongs to a target
+    datacube_header = Optional(LongStr)
+    raw_exposure_header = Optional(LongStr)
+    raman_image_header = Optional(LongStr)
+    psf_params = Optional(LongStr)
+    sources = Optional(LongStr)
+
+    #   ----- Relations -----
+
+    target = Required('Target')  # One exposure belongs to a target
 
 
 #   ----- Main -----
