@@ -6,22 +6,22 @@ Project to improve Muse AO performance.
 The script retrieve data from fits files (prm and psf .fits, reduced and raw), and store it into the database grouped by target.
 
 ## Contents
-- [Requirements](https://github.com/AxlKings/AOMUSE#requirements)
-- [Before execute](https://github.com/AxlKings/AOMUSE#before-execute)
-- [How to run the scripts](https://github.com/AxlKings/AOMUSE#scripts)
-- [Exposure Data Structure](https://github.com/AxlKings/AOMUSE#data-structure)
+- [Requirements](https://github.com/AxlKings/AOMUSE-2020-project#requirements)
+- [Before execute](https://github.com/AxlKings/AOMUSE-2020-project#before-execute)
+- [How to run the scripts](https://github.com/AxlKings/AOMUSE-2020-project#scripts)
+- [Exposure Data Structure](https://github.com/AxlKings/AOMUSE-2020-project#data-structure)
 
-  - [Data field](https://github.com/AxlKings/AOMUSE#data-field)
-  - [PSF Parameters field](https://github.com/AxlKings/AOMUSE#psf-parameters-field)
-  - [Sources field](https://github.com/AxlKings/AOMUSE#sources-field)
-  - [Some keywords](https://github.com/AxlKings/AOMUSE#some-important-keywords)
-- [Basic PonyORM functions](https://github.com/AxlKings/AOMUSE#ponyorm)
+  - [Data field](https://github.com/AxlKings/AOMUSE-2020-project#data-field)
+  - [PSF Parameters field](https://github.com/AxlKings/AOMUSE-2020-project#psf-parameters-field)
+  - [Sources field](https://github.com/AxlKings/AOMUSE-2020-project#sources-field)
+  - [Some keywords](https://github.com/AxlKings/AOMUSE-2020-project#some-important-keywords)
+- [Basic PonyORM functions](https://github.com/AxlKings/AOMUSE-2020-project#ponyorm)
 
-  - [Create](https://github.com/AxlKings/AOMUSE#create)
-  - [Read](https://github.com/AxlKings/AOMUSE#read)
-  - [Update](https://github.com/AxlKings/AOMUSE#update)
-  - [Delete](https://github.com/AxlKings/AOMUSE#delete)
-- [Create a Backup](https://github.com/AxlKings/AOMUSE/blob/master/README.md#create-a-backup)
+  - [Create](https://github.com/AxlKings/AOMUSE-2020-project#create)
+  - [Read](https://github.com/AxlKings/AOMUSE-2020-project#read)
+  - [Update](https://github.com/AxlKings/AOMUSE-2020-project#update)
+  - [Delete](https://github.com/AxlKings/AOMUSE-2020-project#delete)
+- [Create a Backup](https://github.com/AxlKings/AOMUSE-2020-project#create-a-backup)
 ## Requirements
 For the execution of the script its neccesary:
 - [MariaDB](https://mariadb.org/)
