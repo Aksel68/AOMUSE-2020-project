@@ -23,7 +23,7 @@ The script retrieve data from fits files (prm and psf .fits, reduced and raw), a
   - [Delete](https://github.com/AxlKings/AOMUSE-2020-project#delete)
 - [Create a Backup](https://github.com/AxlKings/AOMUSE-2020-project#create-a-backup)
 ## Requirements
-For the execution of the script its neccesary:
+For the execution of the script its necessary:
 - [MariaDB](https://mariadb.org/)
 
 It also uses the next libraries: 
